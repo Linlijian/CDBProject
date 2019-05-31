@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilityLib;
 
 namespace DataAccess
 {
@@ -14,7 +16,7 @@ namespace DataAccess
             var DataSource = "OxlOlO";
             var Id = "sa";
             var Password = "P@ssw0rd";
-            var InitialCatalog = "SDDB";
+            var InitialCatalog = "TCDB";
             var connection = "Data Source=" + DataSource + ";Persist Security Info=True;User ID=" + Id + ";Password=" + Password + ";Initial Catalog=" + InitialCatalog + "";
             var isEncript = ConfigurationManager.AppSettings["EncriptDBConnect"];
             if (isEncript == "true")
@@ -28,7 +30,7 @@ namespace DataAccess
             var DataSource = "OxlOlO";
             var Id = "sa";
             var Password = "P@ssw0rd";
-            var InitialCatalog = "SDDB";
+            var InitialCatalog = "TCDB";
             var connection = "Data Source=" + DataSource + ";Persist Security Info=True;User ID=" + Id + ";Password=" + Password + ";Initial Catalog=" + InitialCatalog + "";
             var connectionEF = "Data Source=" + DataSource + ";Persist Security Info=True;User ID=" + Id + ";Password=" + Password + ";Initial Catalog=" + InitialCatalog + "";
             var isEncript = ConfigurationManager.AppSettings["EncriptDBConnect"];
@@ -57,5 +59,38 @@ namespace DataAccess
             }
             return dataSetResult.Status;
         }
+        public static void AddParameter(this List<SqlDBParameter> parameters, string parameterName, object value, ParameterDirection parameterDirection = ParameterDirection.Input)
+        {
+            var param = new SqlDBParameter();
+            param.DBType = SqlDBType.None;
+            param.Direction = parameterDirection;
+            param.ParameterName = parameterName;
+            param.Size = (parameterDirection == ParameterDirection.Output || parameterDirection == ParameterDirection.InputOutput) ? 2000 : 0;
+            param.Value = !value.IsNullOrEmpty() ? value : null;
+            parameters.Add(param);
+        }
+
+        public static void AddParameter(this List<SqlDBParameter> parameters, string parameterName, object value, ParameterDirection parameterDirection, int size)
+        {
+            var param = new SqlDBParameter();
+            param.DBType = SqlDBType.None;
+            param.Direction = parameterDirection;
+            param.ParameterName = parameterName;
+            param.Size = size;
+            param.Value = !value.IsNullOrEmpty() ? value : null;
+            parameters.Add(param);
+        }
+
+        public static void AddParameter(this List<SqlDBParameter> parameters, string parameterName, object value, SqlDBType dbType, ParameterDirection parameterDirection = ParameterDirection.Input)
+        {
+            var param = new SqlDBParameter();
+            param.DBType = dbType;
+            param.Direction = parameterDirection;
+            param.ParameterName = parameterName;
+            param.Value = !value.IsNullOrEmpty() ? value : null;
+            parameters.Add(param);
+        }
+
+
     }
 }

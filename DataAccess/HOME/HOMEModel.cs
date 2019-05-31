@@ -8,8 +8,10 @@ namespace DataAccess.HOME
     [Serializable]
     public class HOMEModel : StandardModel
     {
-        
+        [Required]
+        [Display(Name = "Id")]
         public string ID { get; set; } //W
+        [Display(Name = "Data")]
         public string DATA { get; set; } //H
         public string ALL_SPP { get; set; } //S
         public string ALL_DEPLOYMENT_IT { get; set; } //I

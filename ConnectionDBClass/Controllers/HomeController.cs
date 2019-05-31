@@ -11,27 +11,38 @@ namespace ConnectionDBClass.Controllers
     {
         public ActionResult Index()
         {
+           
             var da = new HOMEDA();
 
-            da.SelectNoEF(da.DTO);
-            ViewBag.Data1 = da.DTO.Models[0].DATA;
-            ViewBag.Data2 = da.DTO.Models[1].DATA;
-            ViewBag.Id1 = da.DTO.Models[0].ID;
-            ViewBag.Id2 = da.DTO.Models[1].ID;
+            da.DTO.Model.ID = "1";
+
+            da.DeleteNoEF(da.DTO);
+
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult About(HOMEModel model)
         {
             ViewBag.Message = "Your application description page.";
+            var da = new HOMEDA();
+
+            da.DTO.Model.ID = model.ID;
+            da.DTO.Model.DATA = model.DATA;
+
+            da.InsertNoEF(da.DTO);
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Contact(HOMEModel model)
         {
             ViewBag.Message = "Your contact page.";
+            var da = new HOMEDA();
 
+            da.DTO.Model.ID = model.ID;
+            da.DTO.Model.DATA = model.DATA;
+
+            da.UpdateNoEF(da.DTO);
             return View();
         }
     }
