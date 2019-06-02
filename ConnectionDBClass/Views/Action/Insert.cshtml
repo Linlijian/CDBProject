@@ -1,0 +1,63 @@
+﻿@using DataAccess.ACTION
+@model ACTIONModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<br>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        @Html.DisplayNameFor(modelItem => modelItem.ID)
+        @Html.TextBoxFor(modelItem => modelItem.ID)
+    </div>
+    <div class="col-md-4">
+        @Html.DisplayNameFor(modelItem => modelItem.DATA)
+        @Html.TextBoxFor(modelItem => modelItem.DATA)
+    </div>
+    <input type="submit" id="Save" name="Save" value="Save" />
+    @section scripts {
+
+
+
+        <script>
+            $(document).ready(function () {
+
+                $("#Save").on('click', function () {
+                    if ($('#ID').val() != null && $('#ID').val() != '') {
+                        $.ajax({
+                            type: "post",
+                            url: '@Url.Action("SaveInsert", "Action")',
+                            data: JSON.stringify({
+                                ID: $('#ID').val(),
+                                DATA: $('#DATA').val()
+                            }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            processData: false,
+                            success: function (response) {
+                                if (response.IsResult == true) {
+                                    swal("บันทึกสำเร็จ", {
+                                        icon: "success",
+                                    }).then((value) => {
+                                        var tag = '';
+                                        tag = '@Url.Action("Index", "Action")';
+                                        window.location.href = tag;
+                                    });
+                                } else {
+                                    alertErr(response.ResultMsg)
+                                }
+                            }
+                        })
+                    } else {
+                        alertErr("ใส่ ID ก่อนเด่")
+                    }
+
+                })
+
+            })
+
+        </script>
+
+    }

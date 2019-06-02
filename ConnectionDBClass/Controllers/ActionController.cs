@@ -30,14 +30,14 @@ namespace ConnectionDBClass.Controllers
 
         public ActionResult SaveDelete(ACTIONModel model)
         {
-
+            
             var da = new ACTIONDA();
 
             da.DTO.Model.ID = model.ID;
             da.DTO.Execute.ExecuteType = ACTIONExecuteType.Delete;
             da.Delete(da.DTO);
 
-            return RedirectToAction("View");
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Update(ACTIONModel model)
@@ -64,14 +64,8 @@ namespace ConnectionDBClass.Controllers
 
         public ActionResult Insert(ACTIONModel model)
         {
-            var da = new ACTIONDA();
-
-            da.DTO.Model.ID = model.ID;
-            da.DTO.Model.DATA = model.DATA;
-            da.DTO.Execute.ExecuteType = ACTIONExecuteType.Insert;
-            da.Insert(da.DTO);
-
-            return RedirectToAction("View");
+            
+            return View();
         }
         public ActionResult SaveInsert(ACTIONModel model)
         {
@@ -82,7 +76,12 @@ namespace ConnectionDBClass.Controllers
             da.DTO.Execute.ExecuteType = ACTIONExecuteType.Insert;
             da.Insert(da.DTO);
 
-            return RedirectToAction("View");
+            if (da.DTO.Result.IsResult)
+            {
+                return Json(da.DTO.Result, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(da.DTO.Result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Search(ACTIONModel model)

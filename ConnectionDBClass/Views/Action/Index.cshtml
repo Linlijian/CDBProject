@@ -7,11 +7,13 @@
 
 <br>
 <div class="container-fluid">
+    <input type="text" name="TEXT_ID" id="TEXT_ID" placeholder="ID" />
+    <a type="button" id="Delete" name="Delete" class="btn btn-danger" href="javascript:void(0)">
+        <span class="glyphicon glyphicon-tree-deciduous"></span> Delete
+    </a>
+    <br><br>
     <a type="button" class="btn btn-success" href="@Url.Action("Insert")">
         <span class="glyphicon glyphicon-book"></span> Insert
-    </a>
-    <a type="button" class="btn btn-danger" href="@Url.Action("Delete")">
-        <span class="glyphicon glyphicon-tree-deciduous"></span> Delete
     </a>
 </div>
 <br>
@@ -28,8 +30,6 @@
     </div>
 </div>
 
-<input type="hidden" name="TEXT_ID" id="TEXT_ID" />
-<input type="hidden" name="TEXT_DATA" id="TEXT_DATA" />
     @section scripts {
         <script>
             $(document).ready(function () {
@@ -73,47 +73,33 @@
             })
 
             $("#Delete").on('click', function () {
-                $.ajax({
-                    type: "post",
-                    url: '@Url.Action("DeleteStd", "Student")',
-                    data: JSON.stringify({
-                        id: $('#id').val(),
-                        idStd: $('#idStd').val(),
-                        nameStd: $('#nameStd').val()
-                    }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    processData: false,
-                    success: function (response) {
-                        if (response == true) {
-                            swal("บันทึกสำเร็จ", {
-                                icon: "success",
-                            }).then((value) => {
-                                window.location.reload(true);
-                            });
+                if ($('#TEXT_ID').val() != null && $('#TEXT_ID').val() != '') {
+                    $.ajax({
+                        type: "post",
+                        url: '@Url.Action("SaveDelete", "Action")',
+                        data: JSON.stringify({
+                            ID: $('#TEXT_ID').val()
+                        }),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        processData: false,
+                        success: function (response) {
+                            if (response == true) {
+                                swal("บันทึกสำเร็จ", {
+                                    icon: "success",
+                                }).then((value) => {
+                                    window.location.reload(true);
+                                });
+                            }
                         }
-                    }
-                })
+                    })
+                } else {
+                    alertErr("ใส่ ID ก่อนดิ")
+                }
+                
             })
 
-            function alertSucs(data) {
-                $("#notification").hide()
-                var content = '<div class="alert alert-' + 'success' + ' alert-dismissable alert-' + 'success' + 'new"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><h2>';
-                content += '<i class="ace-icon fa fa-exclamation-triangle bigger-130"></i> ';
-                content += data + '</h2>';
-                content += '</div>';
-
-                $("#notification").html(content).fadeTo(2000, 500);
-            }
-            function alertErr(data) {
-                $("#notification").hide()
-                var content = '<div class="alert alert-' + 'danger' + ' alert-dismissable alert-' + 'danger' + 'new"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><h2>';
-                content += '<i class="ace-icon fa fa-exclamation-triangle bigger-130"></i> ';
-                content += data + '</h2>';
-                content += '</div>';
-
-                $("#notification").html(content).fadeTo(2000, 500);
-            }
+           
         </script>
 
     }

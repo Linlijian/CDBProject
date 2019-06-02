@@ -272,6 +272,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Action\Index.cshtml" />
     <Content Include="Views\Action\Update.cshtml" />
+    <Content Include="Views\Action\Insert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

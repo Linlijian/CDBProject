@@ -12,7 +12,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-4">
             @Html.DisplayNameFor(modelItem => modelItem.ID)
-            @Html.TextBoxFor(modelItem => modelItem.ID)
+            @Html.TextBoxFor(modelItem => modelItem.ID, new { @readonly = "readonly" })
         </div>
         <div class="col-md-4">
             @Html.DisplayNameFor(modelItem => modelItem.DATA)
@@ -21,23 +21,3 @@
         <input type="submit" name="Save" value="Save" />
     </div>
 }
-    @section scripts {
-
-
-
-        <script>
-            $(document).ready(function () {
-
-
-                $.toUrlString = function (data) {
-                    var nData = "";
-                    if (data != undefined && data != null && data != "") {
-                        nData = encodeURIComponent(data.toString());
-                    }
-                    return nData;
-                };
-            })
-
-        </script>
-
-    }
