@@ -10,7 +10,7 @@ namespace DataAccess.HOME
     {
         [Required]
         [Display(Name = "Id")]
-        public string ID { get; set; } //W
+        public int ID { get; set; } //W
         [Display(Name = "Data")]
         public string DATA { get; set; } //H
         public string ALL_SPP { get; set; } //S

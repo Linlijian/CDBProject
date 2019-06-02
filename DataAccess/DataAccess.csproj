@@ -38,6 +38,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -59,6 +60,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ACTION\ACTIONDA.cs" />
+    <Compile Include="ACTION\ACTIONDTO.cs" />
+    <Compile Include="ACTION\ACTIONModel.cs" />
     <Compile Include="HOME\HOMEDA.cs" />
     <Compile Include="HOME\HOMEDTO.cs" />
     <Compile Include="HOME\HOMEModel.cs" />

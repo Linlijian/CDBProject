@@ -7,12 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DBConnectionBase
+namespace DataAccess
 {
+  
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class TCDBEntities : DbContext
     {
         public TCDBEntities()
@@ -20,7 +21,7 @@ namespace DBConnectionBase
         {
         }
 
-        public TCDBEntities(string Connection) : base(Connection)
+        public TCDBEntities(string connection) : base(connection)
         {
         }
 
@@ -29,6 +30,6 @@ namespace DBConnectionBase
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<TEST> TESTs { get; set; }
+        public virtual DbSet<TEST> TEST { get; set; }
     }
 }

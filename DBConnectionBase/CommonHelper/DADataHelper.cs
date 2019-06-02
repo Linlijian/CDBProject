@@ -32,7 +32,7 @@ namespace DataAccess
             var Password = "P@ssw0rd";
             var InitialCatalog = "TCDB";
             var connection = "Data Source=" + DataSource + ";Persist Security Info=True;User ID=" + Id + ";Password=" + Password + ";Initial Catalog=" + InitialCatalog + "";
-            var connectionEF = "Data Source=" + DataSource + ";Persist Security Info=True;User ID=" + Id + ";Password=" + Password + ";Initial Catalog=" + InitialCatalog + "";
+            var connectionEF = "metadata=res://*/ModelManager.csdl|res://*/ModelManager.ssdl|res://*/ModelManager.msl;provider=System.Data.SqlClient;provider connection string=\"{tpConnectionString};MultipleActiveResultSets=True;App=EntityFramework\"";
             var isEncript = ConfigurationManager.AppSettings["EncriptDBConnect"];
             if (isEncript == "true")
             {

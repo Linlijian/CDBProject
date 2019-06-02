@@ -6,16 +6,16 @@ using System.Globalization;
 using System.Linq;
 using UtilityLib;
 
-namespace DataAccess.HOME
+namespace DataAccess.ACTION
 {
-    public class HOMEDA : BaseDA
+    public class ACTIONDA : BaseDA
     {
-        public HOMEDTO DTO { get; set; }
+        public ACTIONDTO DTO { get; set; }
 
         #region ====Property========
-        public HOMEDA()
+        public ACTIONDA()
         {
-            DTO = new HOMEDTO();
+            DTO = new ACTIONDTO();
         }
 
        
@@ -26,21 +26,54 @@ namespace DataAccess.HOME
         #region ====Select==========
         protected override BaseDTO DoSelect(BaseDTO baseDTO)
         {
-            var dto = (HOMEDTO)baseDTO;
+            var dto = (ACTIONDTO)baseDTO;
             switch (dto.Execute.ExecuteType)
             {
-                case HOMEExecuteType.GetAll: return GetAll(dto);
-                case HOMEExecuteType.GetAllEF: return GetAllEF(dto);
+                case ACTIONExecuteType.GetAll: return GetAll(dto);
+                case ACTIONExecuteType.GetByID: return GetByID(dto);
+                case ACTIONExecuteType.GetByIDEF: return GetByIDEF(dto);
+                case ACTIONExecuteType.GetAllEF: return GetAllEF(dto);
             }
             
             return dto;
         }
-        private HOMEDTO GetAll(HOMEDTO dto)
+        private ACTIONDTO GetAll(ACTIONDTO dto)
         {
-            dto.Model = _DBManger.TEST.FirstOrDefault().ToNewObject(new HOMEModel());
+            //dto.Model = _DBManger.TEST.FirstOrDefault().ToNewObject(new ACTIONModel());
+            dto.Models = _DBManger.TEST
+                  .Select(m => new
+                  {
+                      ID = m.ID,
+                      DATA = m.DATA
+                  }).Distinct().Select(m => new ACTIONModel { ID = m.ID, DATA = m.DATA }).ToList();
+
             return dto;
         }
-        private HOMEDTO GetAllEF(HOMEDTO dto)
+        private ACTIONDTO GetByID(ACTIONDTO dto)
+        {
+            dto.Model = _DBManger.TEST.Where(m=>m.ID == dto.Model.ID).FirstOrDefault().ToNewObject(new ACTIONModel());
+            
+            return dto;
+        }
+        private ACTIONDTO GetByIDEF(ACTIONDTO dto)
+        {
+            string sql = @"SELECT TOP (1000) [ID]
+                              ,[DATA]
+                          FROM [TCDB].[dbo].[TEST] whrer id = @id";
+
+            var parameters = CreateParameter();
+            parameters.AddParameter("id", dto.Model.ID);
+
+            var result = _DBMangerNoEF.ExecuteDataSet(sql, parameters, commandType: CommandType.Text);
+
+            if (result.Success(dto))
+            {
+                dto.Models = result.OutputDataSet.Tables[0].ToList<ACTIONModel>();
+            }
+
+            return dto;
+        }
+        private ACTIONDTO GetAllEF(ACTIONDTO dto)
         {
             string sql = @"SELECT TOP (1000) [ID]
                               ,[DATA]
@@ -48,7 +81,7 @@ namespace DataAccess.HOME
             var result = _DBMangerNoEF.ExecuteDataSet(sql, null, commandType: CommandType.Text);
             if (result.Success(dto))
             {
-                dto.Models = result.OutputDataSet.Tables[0].ToList<HOMEModel>();
+                dto.Models = result.OutputDataSet.Tables[0].ToList<ACTIONModel>();
             }
             return dto;
         }
@@ -57,16 +90,16 @@ namespace DataAccess.HOME
         #region ====Insert==========
         protected override BaseDTO DoInsert(BaseDTO baseDTO)
         {
-            var dto = (HOMEDTO)baseDTO;
+            var dto = (ACTIONDTO)baseDTO;
             switch (dto.Execute.ExecuteType)
             {
-                case HOMEExecuteType.Insert: return Insert(dto);
-                case HOMEExecuteType.InsertEF: return InsertEF(dto);
+                case ACTIONExecuteType.Insert: return Insert(dto);
+                case ACTIONExecuteType.InsertEF: return InsertEF(dto);
             }
 
             return dto;
         }
-        private HOMEDTO InsertEF(HOMEDTO dto)
+        private ACTIONDTO InsertEF(ACTIONDTO dto)
         {
             string sql = @"INSERT INTO [dbo].[TEST]
                                    ([ID]
@@ -86,7 +119,7 @@ namespace DataAccess.HOME
 
             return dto;
         }
-        private HOMEDTO Insert(HOMEDTO dto)
+        private ACTIONDTO Insert(ACTIONDTO dto)
         {
             if (dto.Model.ID.IsNullOrEmpty())
             {
@@ -103,15 +136,15 @@ namespace DataAccess.HOME
         #region ====Update==========
         protected override BaseDTO DoUpdate(BaseDTO baseDTO)
         {
-            var dto = (HOMEDTO)baseDTO;
+            var dto = (ACTIONDTO)baseDTO;
             switch (dto.Execute.ExecuteType)
             {
-                case HOMEExecuteType.Update: return Update(dto);
-                case HOMEExecuteType.UpdateEF: return UpdateEF(dto);
+                case ACTIONExecuteType.Update: return Update(dto);
+                case ACTIONExecuteType.UpdateEF: return UpdateEF(dto);
             }
             return dto;
         }
-        private HOMEDTO UpdateEF(HOMEDTO dto)
+        private ACTIONDTO UpdateEF(ACTIONDTO dto)
         {
             string sql = @"update [dbo].[TEST] set data = @data where id = 1";
             var parameters = CreateParameter();
@@ -126,9 +159,11 @@ namespace DataAccess.HOME
 
             return dto;
         }
-        private HOMEDTO Update(HOMEDTO dto)
+        private ACTIONDTO Update(ACTIONDTO dto)
         {
-
+            var ID = dto.Model.ID;
+            var model = _DBManger.TEST.First(m => m.ID == ID);
+            model.MergeObject(dto.Model);
 
             return dto;
         }
@@ -137,15 +172,15 @@ namespace DataAccess.HOME
         #region ====Delete==========
         protected override BaseDTO DoDelete(BaseDTO baseDTO)
         {
-            var dto = (HOMEDTO)baseDTO;
+            var dto = (ACTIONDTO)baseDTO;
             switch (dto.Execute.ExecuteType)
             {
-                case HOMEExecuteType.Delete: return Delete(dto);
-                case HOMEExecuteType.DeleteEF: return DeleteEF(dto);
+                case ACTIONExecuteType.Delete: return Delete(dto);
+                case ACTIONExecuteType.DeleteEF: return DeleteEF(dto);
             }
             return dto;
         }
-        private HOMEDTO DeleteEF(HOMEDTO dto)
+        private ACTIONDTO DeleteEF(ACTIONDTO dto)
         {
             string sql = @"delete from [dbo].[TEST] where id = @id";
             var parameters = CreateParameter();
@@ -159,7 +194,7 @@ namespace DataAccess.HOME
 
             return dto;
         }
-        private HOMEDTO Delete(HOMEDTO dto)
+        private ACTIONDTO Delete(ACTIONDTO dto)
         {
             var model = _DBManger.TEST.Where(m => m.ID == dto.Model.ID);
             _DBManger.TEST.RemoveRange(model);

@@ -7,14 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DBConnectionBase
+namespace DataAccess
 {
     using System;
     using System.Collections.Generic;
     
     public partial class TEST
     {
-        public string ID { get; set; }
+        public int ID { get; set; }
         public string DATA { get; set; }
     }
 }

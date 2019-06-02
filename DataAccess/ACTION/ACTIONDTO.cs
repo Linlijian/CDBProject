@@ -4,27 +4,28 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace DataAccess.HOME
+namespace DataAccess.ACTION
 {
     [Serializable]
-    public class HOMEDTO : BaseDTO
+    public class ACTIONDTO : BaseDTO
     {
-        public HOMEDTO()
+        public ACTIONDTO()
         {
-            Model = new HOMEModel();   // new โมเดล 
+            Model = new ACTIONModel();   // new โมเดล 
         }
 
-        public HOMEModel Model { get; set; }   //model
-        public List<HOMEModel> Models { get; set; }  //list 
+        public ACTIONModel Model { get; set; }   //model
+        public List<ACTIONModel> Models { get; set; }  //list 
     }
 
-    public class HOMEExecuteType : DTOExecuteType
+    public class ACTIONExecuteType : DTOExecuteType
     {
         public const string Update = "Update";
         public const string Insert = "Insert";
         public const string Delete = "Delete";
         
         public const string GetAllEF = "GetAllEF";
+        public const string GetByIDEF = "GetByIDEF";
         public const string UpdateEF = "UpdateEF";
         public const string InsertEF = "InsertEF";
         public const string DeleteEF = "DeleteEF";

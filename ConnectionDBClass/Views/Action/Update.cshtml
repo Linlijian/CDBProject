@@ -1,0 +1,43 @@
+﻿@using DataAccess.ACTION
+@model ACTIONModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<br>
+@using (Html.BeginForm("SaveUpdate", "Action", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            @Html.DisplayNameFor(modelItem => modelItem.ID)
+            @Html.TextBoxFor(modelItem => modelItem.ID)
+        </div>
+        <div class="col-md-4">
+            @Html.DisplayNameFor(modelItem => modelItem.DATA)
+            @Html.TextBoxFor(modelItem => modelItem.DATA)
+        </div>
+        <input type="submit" name="Save" value="Save" />
+    </div>
+}
+    @section scripts {
+
+
+
+        <script>
+            $(document).ready(function () {
+
+
+                $.toUrlString = function (data) {
+                    var nData = "";
+                    if (data != undefined && data != null && data != "") {
+                        nData = encodeURIComponent(data.toString());
+                    }
+                    return nData;
+                };
+            })
+
+        </script>
+
+    }

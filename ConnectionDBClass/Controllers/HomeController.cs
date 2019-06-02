@@ -12,13 +12,7 @@ namespace ConnectionDBClass.Controllers
         public ActionResult Index()
         {
            
-            var da = new HOMEDA();
-
-            da.DTO.Model.ID = "1";
-
-            da.DeleteNoEF(da.DTO);
-
-            return View();
+            return RedirectToAction("Index", "Action");
         }
 
         public ActionResult About(HOMEModel model)
@@ -43,6 +37,17 @@ namespace ConnectionDBClass.Controllers
             da.DTO.Model.DATA = model.DATA;
 
             da.UpdateNoEF(da.DTO);
+            return View();
+        }
+
+        public ActionResult Delete(HOMEModel model)
+        {
+            var da = new HOMEDA();
+
+            da.DTO.Model.ID = model.ID;
+            da.DTO.Model.DATA = model.DATA;
+
+            da.DeleteNoEF(da.DTO);
             return View();
         }
     }
